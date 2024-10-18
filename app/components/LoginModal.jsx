@@ -1,19 +1,39 @@
 "use client";
 import { RiEyeCloseFill, RiEye2Line } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 
 export default function LoginModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false); // State for sign-up modal
+  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle user creation logic here
+    console.log("User created:", { username, email, password });
+    setIsSignUpOpen(false);
+  };
+
+  const openSignIn = () => {
+    setIsSignUpOpen(false);
+    setIsModalOpen(false);
+    setIsSignIn(true);
+  };
+
   const openSignUp = () => {
+    setIsSignIn(false);
     setIsModalOpen(false); // Close the original modal
     setIsSignUpOpen(true); // Open the sign-up modal
   };
+
+  const closeSignIn = () => setIsSignIn(false);
 
   const closeSignUp = () => setIsSignUpOpen(false);
 
@@ -75,7 +95,11 @@ export default function LoginModal() {
             >
               Sign Up
             </li>
-            <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
+
+            <li
+              onClick={openSignIn}
+              className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
+            >
               Log In
             </li>
             <hr />
@@ -114,16 +138,26 @@ export default function LoginModal() {
                 </svg>
               </span>
             </div>
-            <form>
-              <h2 className="font-medium text-xl mb-3">
-                Welcome Back to AirClone
-              </h2>
-              <input type="text" placeholder="Username" />
-              <input type="email" placeholder="Email" className="" />
+            <form onSubmit={(e) => handleSubmit(e)}>
+              <h2 className="font-medium text-xl mb-3">Welcome to AirClone</h2>
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(ev) => setUsername(ev.target.value)}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(ev) => setEmail(ev.target.value)}
+              />
               <div className="flex justify-center items-center gap-3">
                 <input
                   type={showPass ? "text" : "password"}
                   placeholder="Password"
+                  value={password}
+                  onChange={(ev) => setPassword(ev.target.value)}
                 />
                 <div
                   onClick={() => setShowPass(!showPass)}
@@ -132,17 +166,84 @@ export default function LoginModal() {
                   <span>{showPass ? <RiEye2Line /> : <RiEyeCloseFill />}</span>
                 </div>
               </div>
-              <input type="password" placeholder="Confirm Password" />
-              <button type="submit" className="primary">
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(ev) => setConfirmPassword(ev.target.value)}
+              />
+              <button type="submit" className="primary w-full">
                 Create Account
               </button>
             </form>
-            <span>
+            <div className="text-center pt-2">
               Already Have an Account?{" "}
-              <Link href={"/login"} className="underline text-blue-500">
+              <button onClick={openSignIn} className="underline text-blue-500">
                 Login here
-              </Link>
-            </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login In Modal */}
+      {isSignIn && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 modal">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-[800px]">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-2xl font-bold mb-4">Sign In</h2>
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-8 hover:cursor-pointer"
+                  onClick={closeSignIn}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+            </div>
+            <form onSubmit={(e) => handleSubmit(e)}>
+              <h2 className="font-medium text-xl mb-3">
+                Welcome Back to AirClone
+              </h2>
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(ev) => setUsername(ev.target.value)}
+              />
+
+              <div className="flex justify-center items-center gap-3">
+                <input
+                  type={showPass ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(ev) => setPassword(ev.target.value)}
+                />
+                <div
+                  onClick={() => setShowPass(!showPass)}
+                  className="flex justify-center items-center mb-3 text-3xl cursor-pointer"
+                >
+                  <span>{showPass ? <RiEye2Line /> : <RiEyeCloseFill />}</span>
+                </div>
+              </div>
+
+              <button type="submit" className="primary w-full">
+                log In
+              </button>
+            </form>
+            <div className="text-center pt-2">
+              Don't Have an Account?{" "}
+              <button onClick={openSignUp} className="underline text-blue-500">
+                Sign Up
+              </button>
+            </div>
           </div>
         </div>
       )}

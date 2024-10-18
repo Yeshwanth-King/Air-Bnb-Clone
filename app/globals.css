@@ -14,9 +14,7 @@ input.error {
   @apply border-red-500;
 }
 
-button{
-    @apply bg-gray-400;
-}
+
 
 button.primary{
     @apply bg-[#ff385c] hover:bg-[#e33450] outline-none text-white py-2 rounded-full px-4;
