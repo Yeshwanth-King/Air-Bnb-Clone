@@ -1,9 +1,9 @@
-import Image from "next/image";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
-    <div className="bg-slate-500 min-h-screen text-white text-3xl text-center">
-      Hello World
+    <div>
+      <Navbar />
     </div>
   );
 }
