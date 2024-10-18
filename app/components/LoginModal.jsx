@@ -1,35 +1,35 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { RiEyeCloseFill, RiEye2Line } from "react-icons/ri";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function LoginModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const modalRef = useRef(null);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false); // State for sign-up modal
+  const [showPass, setShowPass] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen((prev) => !prev);
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
+
+  const openSignUp = () => {
+    setIsModalOpen(false); // Close the original modal
+    setIsSignUpOpen(true); // Open the sign-up modal
   };
+
+  const closeSignUp = () => setIsSignUpOpen(false);
 
   // Close the modal when clicking outside of it
   const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const modalElement = document.querySelector(".modal");
+    if (modalElement && !modalElement.contains(event.target)) {
       setIsModalOpen(false);
+      setIsSignUpOpen(false);
     }
   };
 
   useEffect(() => {
-    if (isModalOpen) {
-      // Add event listener to close modal on outside click
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      // Cleanup listener when modal is closed
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      // Cleanup on component unmount
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isModalOpen]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="relative">
@@ -65,18 +65,18 @@ export default function LoginModal() {
         </svg>
       </div>
 
-      {/* Modal */}
+      {/* Login Modal */}
       {isModalOpen && (
-        <div
-          ref={modalRef} // Attach ref to modal
-          className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-md z-10"
-        >
+        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-md z-10 modal">
           <ul className="py-2">
-            <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
+            <li
+              className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
+              onClick={openSignUp}
+            >
               Sign Up
             </li>
             <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
-              Login in
+              Log In
             </li>
             <hr />
             <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
@@ -89,6 +89,61 @@ export default function LoginModal() {
               Help Center
             </li>
           </ul>
+        </div>
+      )}
+
+      {/* Sign Up Modal */}
+      {isSignUpOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 modal">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-[800px]">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-8 hover:cursor-pointer"
+                  onClick={closeSignUp}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+            </div>
+            <form>
+              <h2 className="font-medium text-xl mb-3">
+                Welcome Back to AirClone
+              </h2>
+              <input type="text" placeholder="Username" />
+              <input type="email" placeholder="Email" className="" />
+              <div className="flex justify-center items-center gap-3">
+                <input
+                  type={showPass ? "text" : "password"}
+                  placeholder="Password"
+                />
+                <div
+                  onClick={() => setShowPass(!showPass)}
+                  className="flex justify-center items-center mb-3 text-3xl cursor-pointer"
+                >
+                  <span>{showPass ? <RiEye2Line /> : <RiEyeCloseFill />}</span>
+                </div>
+              </div>
+              <input type="password" placeholder="Confirm Password" />
+              <button type="submit" className="primary">
+                Create Account
+              </button>
+            </form>
+            <span>
+              Already Have an Account?{" "}
+              <Link href={"/login"} className="underline text-blue-500">
+                Login here
+              </Link>
+            </span>
+          </div>
         </div>
       )}
     </div>
