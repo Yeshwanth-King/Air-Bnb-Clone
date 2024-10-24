@@ -21,9 +21,9 @@ const fonts = Poppins({
 export const metadata = {
   title: "Airbnb | Holiday Booking",
   description: "Get your Now",
-  icons: {
-    icon: "/faacon.svg", // Path to your SVG favicon
-  },
+  // icons: {
+  //   icon: "/faacon.svg", // Path to your SVG favicon
+  // },
 };
 
 export default function RootLayout({ children }) {

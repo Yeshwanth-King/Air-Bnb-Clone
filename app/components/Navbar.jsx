@@ -35,11 +35,11 @@ const Navbar = () => {
         </div>
       </div>
       <div className="flex items-center border-2 md:mx-[200px] shadow-md  rounded-full">
-        <div className="flex w-[33%] hover:bg-gray-100 cursor-pointer transition-all duration-100 py-3 pl-7 rounded-l-full  flex-col">
+        <div className="flex w-[33%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 pl-7 rounded-l-full  flex-col">
           <span>Where</span>
           <span className="text-sm text-gray-400">Search destinations</span>
         </div>
-        <div className="flex w-[33%] justify-around hover:bg-gray-100 cursor-pointer transition-all duration-100 py-3 gap-4">
+        <div className="flex w-[33%] justify-around hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 gap-4">
           <div className="flex flex-col">
             <span>Check in</span>
             <span className="text-sm text-gray-400">Add Date</span>
@@ -49,7 +49,7 @@ const Navbar = () => {
             <span className="text-sm text-gray-400">Add Date</span>
           </div>
         </div>
-        <div className="flex w-[34%] hover:bg-gray-100 cursor-pointer transition-all duration-100 py-[10px] pr-5 justify-between rounded-r-full items-center">
+        <div className="flex w-[34%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-[10px] pr-5 justify-between rounded-r-full items-center">
           <div className="flex flex-col px-4">
             <span>Who</span>
             <span className="text-sm text-gray-400">Add Guests</span>

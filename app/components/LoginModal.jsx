@@ -1,24 +1,51 @@
 "use client";
 import { RiEyeCloseFill, RiEye2Line } from "react-icons/ri";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { motion } from "framer-motion";
 
 export default function LoginModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [showPass, setShowPass] = useState(false);
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const toggleModal = () => setIsModalOpen((prev) => !prev);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle user creation logic here
-    console.log("User created:", { username, email, password });
-    setIsSignUpOpen(false);
+
+    const data = {
+      name,
+      email,
+      password,
+    };
+    try {
+      let response = await axios.post("/api/signUp", data);
+      console.log(response.data.userData);
+      console.log("User created: ", { name, email, password });
+    } catch (error) {
+      console.log(error);
+    }
+    // setIsSignUpOpen(false);
+  };
+
+  const loginhandleSubmit = async (ev) => {
+    ev.preventDefault();
+    const data = {
+      email,
+      password,
+    };
+    try {
+      let response = await axios.post("/api/signUp", data);
+      console.log(response.data);
+    } catch (error) {
+      console.log("Wrong Password");
+    }
   };
 
   const openSignIn = () => {
@@ -50,6 +77,12 @@ export default function LoginModal() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.3 } },
+  };
 
   return (
     <div className="relative">
@@ -87,7 +120,13 @@ export default function LoginModal() {
 
       {/* Login Modal */}
       {isModalOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-md z-10 modal">
+        <motion.div
+          className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-md z-10 modal"
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           <ul className="py-2">
             <li
               className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
@@ -95,13 +134,13 @@ export default function LoginModal() {
             >
               Sign Up
             </li>
-
             <li
               onClick={openSignIn}
               className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
             >
               Log In
             </li>
+
             <hr />
             <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
               About your AirClone
@@ -113,12 +152,18 @@ export default function LoginModal() {
               Help Center
             </li>
           </ul>
-        </div>
+        </motion.div>
       )}
 
       {/* Sign Up Modal */}
       {isSignUpOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 modal">
+        <motion.div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 modal"
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           <div className="bg-white p-8 rounded-lg shadow-lg w-[800px]">
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
@@ -141,12 +186,16 @@ export default function LoginModal() {
             <form onSubmit={(e) => handleSubmit(e)}>
               <h2 className="font-medium text-xl mb-3">Welcome to AirClone</h2>
               <input
+                required
+                autoComplete="name"
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(ev) => setUsername(ev.target.value)}
+                placeholder="Name"
+                value={name}
+                onChange={(ev) => setName(ev.target.value)}
               />
               <input
+                required
+                autoComplete="email"
                 type="email"
                 placeholder="Email"
                 value={email}
@@ -154,6 +203,8 @@ export default function LoginModal() {
               />
               <div className="flex justify-center items-center gap-3">
                 <input
+                  required
+                  autoComplete="new-password"
                   type={showPass ? "text" : "password"}
                   placeholder="Password"
                   value={password}
@@ -167,6 +218,8 @@ export default function LoginModal() {
                 </div>
               </div>
               <input
+                required
+                autoComplete="new-password"
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
@@ -183,12 +236,18 @@ export default function LoginModal() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Login In Modal */}
       {isSignIn && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 modal">
+        <motion.div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 modal"
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
           <div className="bg-white p-8 rounded-lg shadow-lg w-[800px]">
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-2xl font-bold mb-4">Sign In</h2>
@@ -208,19 +267,25 @@ export default function LoginModal() {
                 </svg>
               </span>
             </div>
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => loginhandleSubmit(e)}>
               <h2 className="font-medium text-xl mb-3">
                 Welcome Back to AirClone
               </h2>
               <input
+                required
+                autoComplete="email"
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(ev) => setUsername(ev.target.value)}
+                autoSave="true"
+                placeholder="Email"
+                value={email}
+                onChange={(ev) => setEmail(ev.target.value)}
               />
 
               <div className="flex justify-center items-center gap-3">
                 <input
+                  required
+                  autoComplete="new-password"
+                  autoSave="true"
                   type={showPass ? "text" : "password"}
                   placeholder="Password"
                   value={password}
@@ -245,7 +310,7 @@ export default function LoginModal() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
