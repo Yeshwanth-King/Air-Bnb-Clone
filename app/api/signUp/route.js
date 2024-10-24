@@ -35,7 +35,6 @@ export async function POST(req, res) {
                 sameSite: 'strict',
             })
             return response;
-            // return Response.json({ message: "Password Matched" })
         }
         else {
             console.log("Incorrect Password")
