@@ -126,7 +126,7 @@ export default function LoginModal() {
         </svg>
         {!!user && (
           <div>
-            <span className="text-sm lowercase">{user.name}</span>
+            <span className="text-sm">{user.name}</span>
           </div>
         )}
       </div>
