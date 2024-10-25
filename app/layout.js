@@ -1,6 +1,7 @@
 import { Nunito, Poppins } from "next/font/google"
 import localFont from "next/font/local";
 import "./globals.css";
+import { UserContextProvider } from "./components/UserContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,17 +30,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        {/* <link
-          rel="shortcut icon"
-          href="https://a0.muscache.com/airbnb/static/icons/airbnb-0611901eac33ccfa5e93d793a2e21f09.svg"
-          type="image/x-icon"
-        /> */}
-      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased ` + fonts.className}
       >
-        {children}
+        <UserContextProvider>
+          {children}
+        </UserContextProvider>
       </body>
     </html>
   );

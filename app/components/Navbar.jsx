@@ -1,8 +1,11 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import LoginModal from "./LoginModal";
+import { UserContext } from "./UserContext";
 
 const Navbar = () => {
+  const { user } = useContext(UserContext);
   return (
     <div className="flex flex-col">
       <div className="flex justify-between items-center p-5 py-3 md:px-20">

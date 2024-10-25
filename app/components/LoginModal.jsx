@@ -1,8 +1,10 @@
 "use client";
 import { RiEyeCloseFill, RiEye2Line } from "react-icons/ri";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { UserContext } from "./UserContext";
 
 export default function LoginModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +17,8 @@ export default function LoginModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const toggleModal = () => setIsModalOpen((prev) => !prev);
+  const Router = useRouter();
+  const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,10 +32,10 @@ export default function LoginModal() {
       let response = await axios.post("/api/signUp", data);
       console.log(response.data.userData);
       console.log("User created: ", { name, email, password });
+      setIsSignUpOpen(false);
     } catch (error) {
       console.log(error);
     }
-    // setIsSignUpOpen(false);
   };
 
   const loginhandleSubmit = async (ev) => {
@@ -42,7 +46,11 @@ export default function LoginModal() {
     };
     try {
       let response = await axios.post("/api/signUp", data);
+
       console.log(response.data);
+      setUser(response.data);
+      console.log(user);
+      setIsSignIn(false);
     } catch (error) {
       console.log("Wrong Password");
     }
@@ -116,6 +124,11 @@ export default function LoginModal() {
             clipRule="evenodd"
           />
         </svg>
+        {!!user && (
+          <div>
+            <span className="text-sm lowercase">{user.name}</span>
+          </div>
+        )}
       </div>
 
       {/* Login Modal */}
