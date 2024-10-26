@@ -23,6 +23,14 @@ export default function LoginModal() {
   const Router = useRouter();
   const { user, setUser } = useContext(UserContext);
 
+  const logout = async () => {
+    console.log("Logged out");
+    axios.post("/api/logout").then(() => {
+      setUser(null);
+      Router.push("/");
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -368,6 +376,15 @@ export default function LoginModal() {
             </li>
             <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
               Help Center
+            </li>
+            <hr />
+            <li
+              onClick={() => {
+                logout();
+              }}
+              className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
+            >
+              Log Out
             </li>
           </ul>
         </motion.div>
