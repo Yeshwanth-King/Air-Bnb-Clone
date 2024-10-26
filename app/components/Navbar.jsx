@@ -3,12 +3,14 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import LoginModal from "./LoginModal";
 import { UserContext } from "./UserContext";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const path = usePathname();
   const { user } = useContext(UserContext);
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center py-3 px-3 ">
+      <div className="flex justify-between items-center border-b-[1px] py-3 px-3 ">
         <div className="text-[#ff385c]  flex items-center gap-3">
           <Link href={"/"}>
             <svg className="block" width="30" height="32">
@@ -22,56 +24,62 @@ const Navbar = () => {
             AirClone
           </Link>
         </div>
-        <div className="flex gap-3 text-gray-500 ">
-          <span className="hover:text-gray-900  font-medium hover:bg-gray-100 p-2 transition-all duration-200 rounded-full px-4 cursor-pointer">
-            Stays
-          </span>
-          <span className="hover:text-gray-900  font-medium hover:bg-gray-100 p-2 transition-all duration-200 rounded-full px-4 cursor-pointer">
-            Experiences
-          </span>
-        </div>
+        {path === "/" && (
+          <div className="flex gap-3 text-gray-500 ">
+            <span className="hover:text-gray-900  font-medium hover:bg-gray-100 p-2 transition-all duration-200 rounded-full px-4 cursor-pointer">
+              Stays
+            </span>
+            <span className="hover:text-gray-900  font-medium hover:bg-gray-100 p-2 transition-all duration-200 rounded-full px-4 cursor-pointer">
+              Experiences
+            </span>
+          </div>
+        )}
         <div className="flex">
           <LoginModal />
         </div>
       </div>
-      <div className="flex items-center border-2 md:mx-[200px] shadow-md text-xs font-semibold  rounded-full">
-        <div className="flex w-[33%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 pl-7 rounded-l-full  flex-col">
-          <span>Where</span>
-          <span className="text-sm font-light text-gray-500">
-            Search destinations
-          </span>
-        </div>
-        <div className="flex w-[33%] justify-around hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 gap-4">
-          <div className="flex flex-col">
-            <span>Check in</span>
-            <span className="text-sm font-light text-gray-500">Add Date</span>
+      {path === "/" && (
+        <div className="flex items-center border-2 md:mx-[200px] shadow-md text-xs font-semibold  rounded-full">
+          <div className="flex w-[33%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 pl-7 rounded-l-full  flex-col">
+            <span>Where</span>
+            <span className="text-sm font-light text-gray-500">
+              Search destinations
+            </span>
           </div>
-          <div className="flex flex-col">
-            <span>Check out</span>
-            <span className="text-sm font-light text-gray-500">Add Date</span>
+          <div className="flex w-[33%] justify-around hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 gap-4">
+            <div className="flex flex-col">
+              <span>Check in</span>
+              <span className="text-sm font-light text-gray-500">Add Date</span>
+            </div>
+            <div className="flex flex-col">
+              <span>Check out</span>
+              <span className="text-sm font-light text-gray-500">Add Date</span>
+            </div>
+          </div>
+          <div className="flex w-[34%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-[10px] pr-3 justify-between rounded-r-full items-center">
+            <div className="flex flex-col px-4">
+              <span>Who</span>
+              <span className="text-sm font-light text-gray-500">
+                Add Guests
+              </span>
+            </div>
+            <button className="bg-[#ff385c] text-white p-2 rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-        <div className="flex w-[34%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-[10px] pr-3 justify-between rounded-r-full items-center">
-          <div className="flex flex-col px-4">
-            <span>Who</span>
-            <span className="text-sm font-light text-gray-500">Add Guests</span>
-          </div>
-          <button className="bg-[#ff385c] text-white p-2 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -10,9 +10,11 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     (async () => {
       if (!user) {
-        const response = await axios.get("/api/profile");
-        setUser(response.data.user);
-        setReady(true);
+        try {
+          const response = await axios.get("/api/profile");
+          setUser(response.data.user);
+          setReady(true);
+        } catch (error) {}
       }
     })();
   }, []);
