@@ -9,6 +9,7 @@ import DynamicBadge from "./Dynamicbadge";
 
 export default function LoginModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(false);
   const [isSignIn, setIsSignIn] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -80,10 +81,11 @@ export default function LoginModal() {
     if (modalElement && !modalElement.contains(event.target)) {
       setIsModalOpen(false);
       setIsSignUpOpen(false);
+      setIsLoginModal(false);
     }
   };
-  const toAccount = () => {
-    Router.push("/account");
+  const toggleLoginModal = () => {
+    setIsLoginModal(true);
   };
 
   useEffect(() => {
@@ -102,7 +104,7 @@ export default function LoginModal() {
       {/* Clickable Div */}
       <div
         className="flex justify-center items-center gap-2 border-2 px-3 py-2 rounded-full hover:shadow-md cursor-pointer"
-        onClick={user ? toAccount : toggleModal}
+        onClick={user ? toggleLoginModal : toggleModal}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -327,6 +329,47 @@ export default function LoginModal() {
               </button>
             </div>
           </div>
+        </motion.div>
+      )}
+
+      {/* LOGINED MAIN MENU */}
+      {isLoginModal && (
+        <motion.div
+          className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-md z-10 modal"
+          variants={modalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <ul className="py-2">
+            <li
+              className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                Router.push("/account");
+              }}
+            >
+              Account
+            </li>
+            <li
+              onClick={() => {
+                Router.push("/accomodation");
+              }}
+              className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
+            >
+              My Accomodation
+            </li>
+
+            <hr />
+            <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
+              About your AirClone
+            </li>
+            <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
+              Host An Experience
+            </li>
+            <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">
+              Help Center
+            </li>
+          </ul>
         </motion.div>
       )}
     </div>

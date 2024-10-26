@@ -12,7 +12,7 @@ module.exports = {
         foreground: "var(--foreground)",
       },
       boxShadow: {
-        '4-sides': '0 0 10px rgba(0, 0, 0, 0.25)', // Modify values as needed
+        '4-sides': '0 0 10px rgba(0, 0, 0, 0.1)', // Modify values as needed
       },
     },
   },

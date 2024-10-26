@@ -14,6 +14,7 @@ export function UserContextProvider({ children }) {
           const response = await axios.get("/api/profile");
           setUser(response.data.user);
           setReady(true);
+          console.log(user);
         } catch (error) {}
       }
     })();

@@ -9,9 +9,12 @@ import { FaRegAddressCard, FaRegEye } from "react-icons/fa";
 import { MdOutlineSecurity, MdOutlinePayments } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { AiOutlineNotification } from "react-icons/ai";
+import Footer from "../components/Footer";
+import axios from "axios";
 
 const page = () => {
-  const { user, ready } = useContext(UserContext);
+  const { user, ready, setUser } = useContext(UserContext);
+  const router = useRouter();
 
   if (!ready) {
     return (
@@ -23,26 +26,42 @@ const page = () => {
       </>
     );
   }
-  if (ready && !user) {
-    const Router = useRouter();
-    Router.push("/");
+  if (ready && user == null) {
+    console.log("No User");
+    router.push("/");
   }
+  const logout = async () => {
+    console.log("Logged out");
+    axios.post("/api/logout").then(() => {
+      setUser(null);
+      router.push("/");
+    });
+  };
   return (
     <div>
       <Navbar />
-      <div className="max-w-[1100px] mx-auto mt-20 flex flex-col gap-10 px-32 xl:px-0">
-        <div className="flex flex-col gap-3">
-          <span className="text-4xl font-semibold">Account</span>
-          <span className="text-xl flex gap-1">
-            <span className="font-medium">{user.name}</span> , {user.email} ·
-            <Link href={"/user/" + user._id} className="underline font-medium">
-              Go to Profile
-            </Link>
-          </span>
+      <div className="max-w-[1100px] mx-auto mt-20 flex flex-col gap-10 p-5 sm:px-32 xl:px-0">
+        <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-3">
+            <span className="text-4xl font-semibold">Account</span>
+            <span className="text-xl flex gap-1 font-light">
+              <span className="font-semibold">{user?.name}</span> ,{" "}
+              {user?.email} ·
+              <Link
+                href={"/user/" + user?._id}
+                className="underline font-semibold"
+              >
+                Go to Profile
+              </Link>
+            </span>
+          </div>
+          <button onClick={logout} className="primary">
+            Logout
+          </button>
         </div>
 
-        <div className="grid grid-cols-2   xl:grid-cols-3 gap-5">
-          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-300 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
+        <div className="grid grid-cols-2 max-sm:grid-cols-1  xl:grid-cols-3 gap-5">
+          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-500 ease-in-out py-3 px-4 rounded-xl shadow-4-sides">
             <span className="text-4xl">
               <FaRegAddressCard />
             </span>
@@ -53,7 +72,7 @@ const page = () => {
               </p>
             </div>
           </div>
-          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-300 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
+          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-500 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
             <span className="text-4xl">
               <MdOutlineSecurity />
             </span>
@@ -64,7 +83,7 @@ const page = () => {
               </p>
             </div>
           </div>
-          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-300 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
+          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-500 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
             <span className="text-4xl">
               <MdOutlinePayments />
             </span>
@@ -75,7 +94,7 @@ const page = () => {
               </p>
             </div>
           </div>
-          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-300 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
+          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-500 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
             <span className="text-4xl">
               <FaRegCopy />
             </span>
@@ -86,7 +105,7 @@ const page = () => {
               </p>
             </div>
           </div>
-          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-300 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
+          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-500 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
             <span className="text-4xl">
               <AiOutlineNotification />
             </span>
@@ -97,7 +116,7 @@ const page = () => {
               </p>
             </div>
           </div>
-          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-300 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
+          <div className="card cursor-pointer flex flex-col gap-5 hover:shadow-xl transition-shadow duration-500 ease-in-out py-2 px-4 rounded-xl shadow-4-sides">
             <span className="text-4xl">
               <FaRegEye />
             </span>
@@ -110,7 +129,17 @@ const page = () => {
             </div>
           </div>
         </div>
+        <span className="text-center">
+          Need To Deactivate your Account?{" "}
+          <Link
+            className="underline font-medium"
+            href={"/user/delete/" + user?._id}
+          >
+            Click Here
+          </Link>
+        </span>
       </div>
+      <Footer />
     </div>
   );
 };
