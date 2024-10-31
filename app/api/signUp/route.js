@@ -30,7 +30,7 @@ export async function POST(req, res) {
             const response = NextResponse.json(userData[0])
             response.cookies.set("token", token, {
                 httpOnly: true, // Secure the cookie
-                maxAge: 60 * 60 * 24, // Set expiration for 1 day
+                maxAge: 60 * 60 * 1, // Set expiration for 1 hour
                 path: '/',
                 sameSite: 'strict',
             })

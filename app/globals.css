@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"], input[type="password"], input[type="email"],textarea {
+input[type="text"], input[type="password"], input[type="email"],textarea,input[type="number"] {
   @apply w-full px-4 py-2 mb-3 border rounded-xl outline-none;
 }
 
