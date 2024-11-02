@@ -47,7 +47,6 @@ const page = () => {
       },
     });
 
-    console.log(response.data.photos);
     if (response.data.photos) {
       setAddPhotos((prev) => {
         return [...prev, ...response.data.photos];
@@ -56,12 +55,37 @@ const page = () => {
     setLoading(false);
   };
 
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    console.log("Request done");
+    const data = {
+      title,
+      address,
+      description,
+      addPhotos,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxGuests,
+    };
+    try {
+      let response = await axios.post("/api/add-place", data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <h1 className="text-3xl mt-5 text-center">Accomodations</h1>
       <div className="max-w-[800px] mx-auto">
-        <form className="p-5 flex flex-col gap-2 rounded-xl">
+        <form
+          onSubmit={handleSubmit}
+          className="p-5 flex flex-col gap-2 rounded-xl"
+        >
           <h2 className="text-2xl pl-2">Title</h2>
           <p className="text-sm pl-2 text-gray-400">
             Give a good name to your hotel
@@ -157,7 +181,10 @@ const page = () => {
           <p className="text-sm pl-2 text-gray-400">
             Add Rules and Regulations
           </p>
-          <textarea />
+          <textarea
+            value={extraInfo}
+            onChange={(ev) => setExtraInfo(ev.target.value)}
+          />
           <h2 className="text-2xl pl-2">Check in & out time</h2>
           <div className="grid sm:grid-cols-3 gap-3">
             <div>
