@@ -16,8 +16,8 @@ export async function POST(req, res) {
         url: data.link,
         dest: path.join(process.cwd(), "public", "uploads", newName)
     }
-    const { fileName } = await downloader.image(options)
-    console.log("Saved img ", fileName)
+    const { filename } = await downloader.image(options)
+    console.log(filename)
 
     return Response.json({ newName })
 }
