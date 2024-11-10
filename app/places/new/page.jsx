@@ -62,7 +62,7 @@ const page = () => {
       title,
       address,
       description,
-      addPhotos,
+      photos: addPhotos,
       perks,
       extraInfo,
       checkIn,
@@ -157,7 +157,6 @@ const page = () => {
                 onChange={(ev) => uploadFiles(ev)}
                 type="file"
                 className="hidden"
-                id=""
               />
               <RiUploadCloud2Line />
             </label>

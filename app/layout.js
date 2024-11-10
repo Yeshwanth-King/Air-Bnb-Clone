@@ -20,7 +20,7 @@ const fonts = Poppins({
 });
 
 export const metadata = {
-  title: "Airbnb | Holiday Booking",
+  title: "AirClone | Holiday Booking",
   description: "Get your Now",
   // icons: {
   //   icon: "/faacon.svg", // Path to your SVG favicon

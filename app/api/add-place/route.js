@@ -8,7 +8,7 @@ import PlaceModal from "@/app/models/Place";
 const jwsScret = "kenfolanfclkmxlcmpamfoenaofeafoaljfjmafeoka"
 
 export async function POST(req, res) {
-    const data = await req.json();
+    let data = await req.json();
     console.log(data)
     const cookieStore = cookies();
     const token = cookieStore.get("token");
@@ -16,6 +16,7 @@ export async function POST(req, res) {
         await connectDB()
         const user = jws.verify(token.value, jwsScret, {})
         const { name, email, _id } = await User.findById(user.id);
+        data.owner = _id;
         console.log("User Found : ", name)
         let placeDoc = await PlaceModal.create(data)
         console.log(placeDoc);
