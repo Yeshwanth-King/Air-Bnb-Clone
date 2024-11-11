@@ -2,13 +2,12 @@
 import Navbar from "@/app/components/Navbar";
 import React, { useState } from "react";
 import { RiUploadCloud2Line } from "react-icons/ri";
-
 import Perks from "@/app/components/Perks";
 import axios from "axios";
-import Image from "next/image";
 import SpinnerLoader from "@/app/components/SpinnerLoader";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
@@ -20,6 +19,7 @@ const page = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+  const Router = useRouter();
 
   const addPhotoToPhotos = async (ev, photoLink) => {
     setLoading(true);
@@ -57,7 +57,6 @@ const page = () => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    console.log("Request done");
     const data = {
       title,
       address,
@@ -72,6 +71,7 @@ const page = () => {
     try {
       let response = await axios.post("/api/add-place", data);
       console.log(response.data);
+      Router.push("/accomodation");
     } catch (error) {
       console.log(error);
     }
@@ -227,4 +227,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

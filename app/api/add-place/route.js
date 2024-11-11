@@ -20,7 +20,7 @@ export async function POST(req, res) {
         console.log("User Found : ", name)
         let placeDoc = await PlaceModal.create(data)
         console.log(placeDoc);
-        return NextResponse.json({ data })
+        return NextResponse.json({ placeDoc })
     }
     else {
         return NextResponse.json({ message: "Please Login to Add Place" })

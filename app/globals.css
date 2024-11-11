@@ -18,3 +18,8 @@ input.error {
 button.primary{
     @apply bg-[#ff385c] hover:bg-[#e33450] outline-none text-white cursor-pointer py-2 rounded-full px-4;
 }
+
+.grid-rr{
+  display: grid;
+  grid-template-columns: 0.6fr 2fr;
+}

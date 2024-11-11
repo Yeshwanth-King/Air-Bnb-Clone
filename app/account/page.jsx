@@ -12,7 +12,7 @@ import { AiOutlineNotification } from "react-icons/ai";
 import Footer from "../components/Footer";
 import axios from "axios";
 
-const page = () => {
+const Page = () => {
   const { user, ready, setUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -144,4 +144,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
