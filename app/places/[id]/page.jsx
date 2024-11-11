@@ -1,13 +1,13 @@
 "use client";
 import Navbar from "@/app/components/Navbar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiUploadCloud2Line } from "react-icons/ri";
 import Perks from "@/app/components/Perks";
 import axios from "axios";
 import SpinnerLoader from "@/app/components/SpinnerLoader";
 import { useRouter } from "next/navigation";
 
-const Page = () => {
+const Page = ({ params }) => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
@@ -20,6 +20,27 @@ const Page = () => {
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
   const Router = useRouter();
+
+  const id = params.id;
+
+  useEffect(() => {
+    (async () => {
+      if (!id || id === "new") {
+        return;
+      }
+      const response = await axios.post("/api/getInfo", { id });
+      console.log(response.data.place.title);
+      setTitle(response.data.place.title);
+      setAddress(response.data.place.address);
+      setAddPhotos(response.data.place.photos);
+      setDescription(response.data.place.description);
+      setPerks(response.data.place.perks);
+      setExtraInfo(response.data.place.extraInfo);
+      setCheckIn(response.data.place.checkIn);
+      setCheckOut(response.data.place.checkOut);
+      setMaxGuests(response.data.place.maxGuests);
+    })();
+  }, [id]);
 
   const addPhotoToPhotos = async (ev, photoLink) => {
     setLoading(true);
@@ -57,23 +78,45 @@ const Page = () => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    const data = {
-      title,
-      address,
-      description,
-      photos: addPhotos,
-      perks,
-      extraInfo,
-      checkIn,
-      checkOut,
-      maxGuests,
-    };
-    try {
-      let response = await axios.post("/api/add-place", data);
-      console.log(response.data);
-      Router.push("/accomodation");
-    } catch (error) {
-      console.log(error);
+    if (id === "new") {
+      const data = {
+        title,
+        address,
+        description,
+        photos: addPhotos,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+      };
+      try {
+        let response = await axios.post("/api/add-place", data);
+        console.log(response.data);
+        Router.push("/accomodation");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const data = {
+        id: id,
+        title,
+        address,
+        description,
+        photos: addPhotos,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+      };
+      try {
+        let response = await axios.put("/api/add-place", data);
+        console.log(response.data);
+        Router.push("/accomodation");
+      } catch (error) {
+        alert(error);
+      }
     }
   };
 

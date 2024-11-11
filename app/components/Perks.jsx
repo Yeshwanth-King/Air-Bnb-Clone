@@ -20,35 +20,60 @@ const Perks = ({ perks, setPerks }) => {
   return (
     <>
       <label className="border-2 cursor-pointer hover:shadow-lg transition-shadow duration-500 flex  rounded-lg gap-4 px-2 py-3 items-center ">
-        <input type="checkbox" onChange={handleCbChange} name="wifi" id="" />
+        <input
+          type="checkbox"
+          onChange={handleCbChange}
+          checked={perks.includes("wifi")}
+          name="wifi"
+        />
         <span className="text-lg">
           <MdOutlineWifi />
         </span>
         <span className="md:text-sm text-xs">Wifi</span>
       </label>
       <label className="border-2 cursor-pointer hover:shadow-lg transition-shadow duration-500 flex  rounded-lg gap-4 px-2 py-3 items-center ">
-        <input type="checkbox" onChange={handleCbChange} name="parking" id="" />
+        <input
+          type="checkbox"
+          onChange={handleCbChange}
+          checked={perks.includes("parking")}
+          name="parking"
+        />
         <span className="text-lg">
           <FaCarOn />
         </span>
         <span className="md:text-sm text-xs">Parking</span>
       </label>
       <label className="border-2 cursor-pointer hover:shadow-lg transition-shadow duration-500 flex  rounded-lg gap-4 px-2 py-3 items-center ">
-        <input type="checkbox" onChange={handleCbChange} name="AC" id="" />
+        <input
+          type="checkbox"
+          onChange={handleCbChange}
+          checked={perks.includes("AC")}
+          name="AC"
+        />
         <span className="text-lg">
           <FaCloudShowersHeavy />
         </span>
         <span className="md:text-sm text-xs">AC</span>
       </label>
       <label className="border-2 cursor-pointer hover:shadow-lg transition-shadow duration-500 flex  rounded-lg gap-4 px-2 py-3 items-center ">
-        <input type="checkbox" onChange={handleCbChange} name="TV" id="" />
+        <input
+          type="checkbox"
+          onChange={handleCbChange}
+          checked={perks.includes("TV")}
+          name="TV"
+        />
         <span className="text-lg">
           <IoMdTv />
         </span>
         <span className="md:text-sm text-xs">TV</span>
       </label>
       <label className="border-2 cursor-pointer hover:shadow-lg transition-shadow duration-500 flex  rounded-lg gap-4 px-2 py-3 items-center ">
-        <input type="checkbox" onChange={handleCbChange} name="radio" id="" />
+        <input
+          type="checkbox"
+          onChange={handleCbChange}
+          checked={perks.includes("radio")}
+          name="radio"
+        />
         <span className="text-lg">
           <FaRadio />
         </span>

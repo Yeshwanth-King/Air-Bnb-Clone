@@ -6,6 +6,10 @@ input[type="text"], input[type="password"], input[type="email"],textarea,input[t
   @apply w-full px-4 py-2 mb-3 border rounded-xl outline-none;
 }
 
+textarea{
+  @apply h-32;
+}
+
 input.no{
     @apply border-none;
 }

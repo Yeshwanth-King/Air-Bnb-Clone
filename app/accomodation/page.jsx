@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Link from "next/link";
 import { GoPlus } from "react-icons/go";
 import axios from "axios";
+import PlacesCard from "../components/PlacesCard";
 
 const Page = () => {
   const [places, setPlaces] = useState([]);
@@ -23,29 +24,35 @@ const Page = () => {
         </span>
       </div>
 
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-4 mt-5 max-w-[70%] mx-auto">
         {places.length > 0 &&
           places.map((place) => {
             return (
-              <div
+              <Link
+                href={"/places/" + place._id}
                 key={place._id}
-                className="bg-gray-300 grid-rr mx-10 p-3 rounded-2xl"
+                className="bg-gray-200 p-3 rounded-2xl flex gap-4 mx-10"
               >
-                <div className="w-32 h-32 bg-gray-400 rounded-lg">
-                  <img
-                    src={"./public/uploads/" + place.photos[0]}
-                    className="object-cover "
-                    alt="p"
-                  />
+                <div className="w-32 h-32 bg-gray-400 rounded-lg flex justify-center items-center overflow-hidden flex-shrink-0">
+                  {place.photos[0] ? (
+                    <img
+                      src={"/uploads/" + place.photos[0]}
+                      className="object-cover w-full h-full"
+                      alt="place"
+                    />
+                  ) : (
+                    <span>No Image</span>
+                  )}
                 </div>
-                <div>
-                  <span>{place.title}</span>
-                  <p>{place.description}</p>
+                <div className="flex flex-col gap-5 mt-2">
+                  <span className="text-lg">{place.title}</span>
+                  <p className="text-sm text-gray-600">{place.description}</p>
                 </div>
-              </div>
+              </Link>
             );
           })}
       </div>
+
       <div className="flex mt-5">
         <Link
           className="bg-[#ff385c] flex gap-2 justify-center items-center hover:bg-[#e33450] px-4 py-2 rounded-full text-white mx-auto"
