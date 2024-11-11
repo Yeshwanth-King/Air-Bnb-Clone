@@ -20,6 +20,7 @@ const Page = ({ params }) => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+  const [price, setPrice] = useState("");
   const Router = useRouter();
 
   const id = params.id;
@@ -40,6 +41,7 @@ const Page = ({ params }) => {
       setCheckIn(response.data.place.checkIn);
       setCheckOut(response.data.place.checkOut);
       setMaxGuests(response.data.place.maxGuests);
+      setPrice(response.data.place.price);
     })();
   }, [id]);
 
@@ -90,6 +92,7 @@ const Page = ({ params }) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       };
       try {
         let response = await axios.post("/api/add-place", data);
@@ -284,7 +287,7 @@ const Page = ({ params }) => {
             onChange={(ev) => setExtraInfo(ev.target.value)}
           />
           <h2 className="text-2xl pl-2">Check in & out time</h2>
-          <div className="grid sm:grid-cols-3 gap-3">
+          <div className="grid sm:grid-cols-4 grid-cols-2 gap-3">
             <div>
               Check In
               <input
@@ -316,6 +319,17 @@ const Page = ({ params }) => {
                 }}
                 type="text"
                 placeholder="5"
+              />
+            </div>
+            <div>
+              Price Per Night
+              <input
+                value={price}
+                onChange={(ev) => {
+                  setPrice(ev.target.value);
+                }}
+                type="text"
+                placeholder="10000₹"
               />
             </div>
           </div>
