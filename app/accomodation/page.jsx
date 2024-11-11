@@ -27,7 +27,10 @@ const Page = () => {
         {places.length > 0 &&
           places.map((place) => {
             return (
-              <div className="bg-gray-300 grid-rr mx-10 p-3 rounded-2xl">
+              <div
+                key={place._id}
+                className="bg-gray-300 grid-rr mx-10 p-3 rounded-2xl"
+              >
                 <div className="w-32 h-32 bg-gray-400 rounded-lg">
                   <img
                     src={"./public/uploads/" + place.photos[0]}

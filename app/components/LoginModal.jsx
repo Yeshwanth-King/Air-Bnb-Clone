@@ -257,7 +257,7 @@ export default function LoginModal() {
               </button>
             </form>
             <div className="text-center pt-2">
-              Already Have an Account?{" "}
+              Already Have an Account?
               <button onClick={openSignIn} className="underline text-blue-500">
                 Login here
               </button>
@@ -331,7 +331,7 @@ export default function LoginModal() {
               </button>
             </form>
             <div className="text-center pt-2">
-              Don't Have an Account?{" "}
+              Don&apos;t Have an Account?
               <button onClick={openSignUp} className="underline text-blue-500">
                 Sign Up
               </button>
