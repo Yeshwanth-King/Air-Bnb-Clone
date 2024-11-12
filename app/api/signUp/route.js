@@ -26,7 +26,6 @@ export async function POST(req, res) {
         if (isPassOk) {
             console.log("Password Match")
             const token = jws.sign({ email: userData[0].email, id: userData[0]._id }, jwsScret, {})
-            console.log(token)
             const response = NextResponse.json(userData[0])
             response.cookies.set("token", token, {
                 httpOnly: true, // Secure the cookie

@@ -9,7 +9,7 @@ const Navbar = () => {
   const path = usePathname();
   const { user } = useContext(UserContext);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white">
       <div className="flex justify-between items-center border-b-[1px] py-3 px-3 ">
         <div className="text-[#ff385c]  flex items-center gap-3">
           <Link href={"/"}>
