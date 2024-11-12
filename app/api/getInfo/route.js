@@ -6,6 +6,5 @@ export async function POST(req, res) {
     const { id } = await req.json();
     await connectDB();
     const place = await PlaceModal.findById(id)
-    console.log(place)
     return NextResponse.json({ place })
 }

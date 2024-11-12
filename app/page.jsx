@@ -2,6 +2,7 @@
 import axios from "axios";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
@@ -10,11 +11,10 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       let response = await axios.get("/api/getAllPalces");
-      console.log(response.data);
       setPlaces([
         ...response.data.place,
-        ...response.data.place,
-        ...response.data.place,
+        // ...response.data.place,
+        // ...response.data.place,
       ]);
     })();
   }, []);
@@ -23,10 +23,10 @@ export default function Home() {
     <div>
       <Navbar />
       {places.length > 0 && (
-        <div className="grid max-w-[80%] mx-auto mt-10 grid-cols-3 gap-y-8 gap-5 lg:grid-cols-4">
+        <div className="grid max-w-[80%] mx-auto mt-10 grid-cols-3 gap-y-8 cursor-pointer gap-5 lg:grid-cols-4">
           {places.map((place) => {
             return (
-              <div key={place._id}>
+              <Link href={"/place/" + place._id} key={place._id}>
                 <div className="flex flex-col">
                   <div className=" rounded-xl overflow-hidden">
                     <img
@@ -43,7 +43,7 @@ export default function Home() {
                     <span className="font-bold">₹{place.price} per night</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
