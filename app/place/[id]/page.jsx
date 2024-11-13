@@ -110,31 +110,33 @@ const page = ({ params }) => {
               Price :<span className="font-bold">₹{place?.price}</span> / Per
               Night
             </span>
-            <div class="border border-gray-200 rounded-xl flex flex-col justify-center items-center mt-3 gap-2">
+            <div className=" rounded-xl flex flex-col p-3 justify-center items-center mt-3 gap-2">
               <div className="flex flex-col">
                 <div className="flex">
-                  <div class="flex flex-col gap-1 border border-gray-200 p-3">
-                    <label class="text-sm font-medium text-gray-700">
+                  <div className="flex flex-col gap-1 border rounded-tl-xl border-gray-200 p-3">
+                    <label className="text-sm font-medium text-gray-700">
                       Check In
                     </label>
                     <input
                       type="date"
-                      class="border border-gray-300 p-2 rounded"
+                      className="border border-gray-300 p-2 rounded"
                     />
                   </div>
-                  <div class="flex flex-col gap-1 border border-gray-200 p-3">
-                    <label class="text-sm font-medium text-gray-700">
+                  <div className="flex flex-col gap-1 border rounded-tr-xl border-gray-200 p-3">
+                    <label className="text-sm font-medium text-gray-700">
                       Check Out
                     </label>
                     <input
                       type="date"
-                      class="border border-gray-300 p-2 rounded"
+                      className="border border-gray-300 p-2 rounded"
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-1 border border-gray-200 p-2">
-                  <label>Guests</label>
-                  <select className="border p-2" name="" id="">
+                <div className="flex flex-col gap-1 border rounded-b-xl border-gray-200 p-3">
+                  <label className="text-sm font-medium text-gray-700">
+                    Guests
+                  </label>
+                  <select className="border rounded p-2" name="" id="">
                     <option>1</option>
                     <option>1</option>
                     <option>1</option>
