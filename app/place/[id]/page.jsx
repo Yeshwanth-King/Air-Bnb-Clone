@@ -5,12 +5,21 @@ import React, { useEffect, useState } from "react";
 import { PiDotsNineBold } from "react-icons/pi";
 import { ImCancelCircle } from "react-icons/im";
 import { IoLocationOutline } from "react-icons/io5";
+import { differenceInCalendarDays } from "date-fns";
 
 const page = ({ params }) => {
   const [place, setPlace] = useState(null);
   const [showPhotos, setShowPhotos] = useState(false);
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
+  const [numberOfNights, setNumberOfNights] = useState(0);
+  const [guests, setGuests] = useState(1);
+  useEffect(() => {
+    setNumberOfNights(
+      differenceInCalendarDays(new Date(checkOutDate), new Date(checkInDate))
+    );
+  }, [checkInDate, checkOutDate]);
+
   const id = params.id;
   useEffect(() => {
     (async () => {
@@ -58,6 +67,9 @@ const page = ({ params }) => {
         <div className="grid relative grid-cols-2 gap-3 rounded-2xl overflow-hidden mt-5">
           <div>
             <img
+              onClick={() => {
+                setShowPhotos(true);
+              }}
               className="object-cover aspect-square cursor-pointer hover:brightness-50 transition-all duration-300"
               src={"/uploads/" + place?.photos[0]}
               alt=""
@@ -72,6 +84,9 @@ const page = ({ params }) => {
                 return (
                   <div key={index}>
                     <img
+                      onClick={() => {
+                        setShowPhotos(true);
+                      }}
                       className="object-cover aspect-square cursor-pointer hover:brightness-75 transition-all duration-300"
                       src={"/uploads/" + photo}
                       alt=""
@@ -106,10 +121,19 @@ const page = ({ params }) => {
             </span>
           </div>
           <div className="bg-white m-2 mx-5 rounded-2xl p-4">
-            <span className="text-lg">
-              Price :<span className="font-bold">₹{place?.price}</span> / Per
-              Night
-            </span>
+            <div className="flex justify-between">
+              <span className="text-lg">
+                Price :<span className="font-bold">₹{place?.price}</span> / Per
+                Night
+              </span>
+              <button className="primary ">
+                {numberOfNights > 0 ? (
+                  <span>₹{numberOfNights * place?.price}</span>
+                ) : (
+                  "Book Place"
+                )}
+              </button>
+            </div>
             <div className=" rounded-xl flex flex-col p-3 justify-center items-center mt-3 gap-2">
               <div className="flex flex-col">
                 <div className="flex">
@@ -119,6 +143,8 @@ const page = ({ params }) => {
                     </label>
                     <input
                       type="date"
+                      value={checkInDate}
+                      onChange={(ev) => +setCheckInDate(ev.target.value)}
                       className="border border-gray-300 p-2 rounded"
                     />
                   </div>
@@ -128,6 +154,8 @@ const page = ({ params }) => {
                     </label>
                     <input
                       type="date"
+                      value={checkOutDate}
+                      onChange={(ev) => setCheckOutDate(ev.target.value)}
                       className="border border-gray-300 p-2 rounded"
                     />
                   </div>
@@ -136,17 +164,26 @@ const page = ({ params }) => {
                   <label className="text-sm font-medium text-gray-700">
                     Guests
                   </label>
-                  <select className="border rounded p-2" name="" id="">
-                    <option>1</option>
-                    <option>1</option>
-                    <option>1</option>
-                    <option>1</option>
+                  <select
+                    className="border cursor-pointer rounded p-2"
+                    name="guests"
+                    id="guests"
+                  >
+                    {place?.maxGuests > 0 &&
+                      Array.from({ length: place.maxGuests }, (_, i) => (
+                        <option key={i + 1} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
             </div>
-            <button className="primary">Book Place</button>
           </div>
+        </div>
+        <div className="bg-white p-4 rounded-xl mt-5">
+          <h2 className="text-2xl font-bold">Extra Info:</h2>
+          <p>{place?.extraInfo}</p>
         </div>
       </div>
     </div>
