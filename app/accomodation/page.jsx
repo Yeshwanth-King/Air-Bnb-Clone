@@ -24,7 +24,7 @@ const Page = () => {
         </span>
       </div>
 
-      <div className="flex flex-col gap-4 mt-5 max-w-[70%] mx-auto">
+      <div className="flex flex-col gap-4 mt-5 md:max-w-[70%] mx-auto">
         {places.length > 0 &&
           places.map((place) => {
             return (
@@ -46,7 +46,9 @@ const Page = () => {
                 </div>
                 <div className="flex flex-col gap-5 mt-2">
                   <span className="text-lg">{place.title}</span>
-                  <p className="text-sm text-gray-600">{place.description}</p>
+                  <p className="text-sm text-gray-600 max-sm:hidden">
+                    {place.description}
+                  </p>
                 </div>
               </Link>
             );

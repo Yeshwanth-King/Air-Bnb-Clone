@@ -2,28 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="text"], input[type="password"], input[type="email"],textarea,input[type="number"] {
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+input[type="number"],
+input[type="tel"] {
   @apply w-full px-4 py-2 mb-3 border rounded-xl outline-none;
 }
 
-textarea{
+textarea {
   @apply h-32;
 }
 
-input.no{
-    @apply border-none;
+input.no {
+  @apply border-none;
 }
 
 input.error {
   @apply border-red-500;
 }
 
-
-button.primary{
-    @apply bg-[#ff385c] hover:bg-[#e33450] outline-none text-white cursor-pointer py-2 rounded-full px-4;
+button.primary {
+  @apply bg-[#ff385c] hover:bg-[#e33450] outline-none text-white cursor-pointer py-2 rounded-full px-4;
 }
 
-.grid-rr{
+.grid-rr {
   display: grid;
   grid-template-columns: 0.6fr 2fr;
 }

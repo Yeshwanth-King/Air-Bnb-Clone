@@ -191,7 +191,7 @@ const Page = ({ params }) => {
               Grab Photo
             </button>
           </div>
-          <div className="grid mt-5 grid-cols-3 gap-2 md:grid-cols-4">
+          <div className="grid mt-5 grid-cols-3 max-sm:grid-cols-2 gap-2 md:grid-cols-4">
             {loading && (
               <div className="flex justify-center items-center">
                 <SpinnerLoader />

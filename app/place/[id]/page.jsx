@@ -58,7 +58,7 @@ const page = ({ params }) => {
   return (
     <div className="min-h-screen bg-gray-200">
       <Navbar />
-      <div className="max-w-[80%] p-10 mx-auto">
+      <div className="md:max-w-[80%] p-5 md:p-10 mx-auto">
         <span className="text-3xl font-medium p-2">{place?.title}</span>
         <div className="p-2 font-semibold flex items-center underline">
           <IoLocationOutline className="font-bold text-lg" />
@@ -103,7 +103,7 @@ const page = ({ params }) => {
               className="absolute bottom-4 right-4 flex gap-2 justify-center items-center bg-white hover:bg-gray-200 py-1 px-3 rounded-xl"
             >
               <PiDotsNineBold />
-              Show all photos
+              <span className="max-sm:hidden">Show all photos</span>
             </button>
           )}
         </div>
@@ -112,7 +112,7 @@ const page = ({ params }) => {
           <h2 className="text-2xl font-bold">Description:</h2>
           <p>{place?.description}</p>
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr]">
           <div className="flex flex-col gap-2 mt-5">
             <span className="font-bold">Check In : {place?.checkIn}</span>
             <span className="font-bold">Check Out : {place?.checkOut}</span>
@@ -120,52 +120,46 @@ const page = ({ params }) => {
               Maximum Number of Guests : {place?.maxGuests}
             </span>
           </div>
-          <div className="bg-white m-2 mx-5 rounded-2xl p-4">
-            <div className="flex justify-between">
-              <span className="text-lg">
-                Price :<span className="font-bold">₹{place?.price}</span> / Per
-                Night
-              </span>
-              <button className="primary ">
-                {numberOfNights > 0 ? (
-                  <span>₹{numberOfNights * place?.price}</span>
-                ) : (
-                  "Book Place"
-                )}
-              </button>
-            </div>
-            <div className=" rounded-xl flex flex-col p-3 justify-center items-center mt-3 gap-2">
-              <div className="flex flex-col">
-                <div className="flex">
-                  <div className="flex flex-col gap-1 border rounded-tl-xl border-gray-200 p-3">
-                    <label className="text-sm font-medium text-gray-700">
-                      Check In
-                    </label>
-                    <input
-                      type="date"
-                      value={checkInDate}
-                      onChange={(ev) => +setCheckInDate(ev.target.value)}
-                      className="border border-gray-300 p-2 rounded"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1 border rounded-tr-xl border-gray-200 p-3">
-                    <label className="text-sm font-medium text-gray-700">
-                      Check Out
-                    </label>
-                    <input
-                      type="date"
-                      value={checkOutDate}
-                      onChange={(ev) => setCheckOutDate(ev.target.value)}
-                      className="border border-gray-300 p-2 rounded"
-                    />
-                  </div>
+          <div className="bg-white m-2  rounded-2xl p-4 flex flex-col gap-4">
+            <span className="text-lg flex items-center">
+              Price: <span className="font-bold">₹{place?.price}</span> / Per
+              Night
+            </span>
+
+            <div className="rounded-xl flex flex-col p-3 justify-center items-center gap-2">
+              <div className="flex max-md:flex-col max-md:gap-1">
+                <div className="flex flex-col gap-1 border rounded-lg border-gray-200 p-3">
+                  <label className="text-sm font-medium text-gray-700">
+                    Check In
+                  </label>
+                  <input
+                    type="date"
+                    value={checkInDate}
+                    onChange={(ev) => setCheckInDate(ev.target.value)}
+                    className="border border-gray-300 p-2 rounded"
+                  />
                 </div>
-                <div className="flex flex-col gap-1 border rounded-b-xl border-gray-200 p-3">
+                <div className="flex flex-col gap-1 border rounded-lg border-gray-200 p-3">
+                  <label className="text-sm font-medium text-gray-700">
+                    Check Out
+                  </label>
+                  <input
+                    type="date"
+                    value={checkOutDate}
+                    onChange={(ev) => setCheckOutDate(ev.target.value)}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                </div>
+              </div>
+              <div className="w-full">
+                <div className="flex flex-col gap-1 border rounded-lg border-gray-200 p-3">
                   <label className="text-sm font-medium text-gray-700">
                     Guests
                   </label>
                   <select
                     className="border cursor-pointer rounded p-2"
+                    value={guests}
+                    onChange={(ev) => setGuests(ev.target.value)}
                     name="guests"
                     id="guests"
                   >
@@ -179,6 +173,27 @@ const page = ({ params }) => {
                 </div>
               </div>
             </div>
+
+            {numberOfNights > 0 && (
+              <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Your Name:
+                </label>
+                <input type="text" required placeholder="Yeshwanth" />
+                <label className="text-sm font-medium text-gray-700">
+                  Phone Number:
+                </label>
+                <input type="tel" required placeholder="123" />
+              </div>
+            )}
+
+            <button className="primary flex items-center justify-center">
+              {numberOfNights > 0 ? (
+                <span>₹{numberOfNights * place?.price}</span>
+              ) : (
+                "Book Place"
+              )}
+            </button>
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl mt-5">

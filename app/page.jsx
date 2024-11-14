@@ -23,7 +23,7 @@ export default function Home() {
     <div>
       <Navbar />
       {places.length > 0 && (
-        <div className="grid max-w-[80%] mx-auto mt-10 grid-cols-3 gap-y-8 cursor-pointer gap-5 lg:grid-cols-4">
+        <div className="grid max-w-[80%] mx-auto mt-10 grid-cols-3 max-sm:grid-cols-1 gap-y-8 cursor-pointer gap-5 lg:grid-cols-4">
           {places.map((place) => {
             return (
               <Link href={"/place/" + place._id} key={place._id}>
