@@ -41,8 +41,7 @@ export default function LoginModal() {
     };
     try {
       let response = await axios.post("/api/signUp", data);
-      console.log(response.data.userData);
-      console.log("User created: ", { name, email, password });
+      console.log("User created: ", { name, email });
       setIsSignUpOpen(false);
     } catch (error) {
       console.log(error);
@@ -58,9 +57,7 @@ export default function LoginModal() {
     try {
       let response = await axios.post("/api/signUp", data);
 
-      console.log(response.data);
       setUser(response.data);
-      console.log(user);
       setIsSignIn(false);
     } catch (error) {
       console.log("Wrong Password");

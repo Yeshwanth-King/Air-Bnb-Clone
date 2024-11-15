@@ -9,14 +9,19 @@ const page = () => {
   useEffect(() => {
     (async () => {
       const response = await axios.get("/api/booking");
-      console.log(response.data.bookings);
       setBookings(response.data.bookings);
     })();
   }, []);
-
   return (
     <div>
       <Navbar />
+      {bookings.length === 0 && (
+        <>
+          <div className="container max-w-[70%] p-5 text-xl mx-auto">
+            No Booking... Please Book to See the Bookings
+          </div>
+        </>
+      )}
       {bookings?.length > 0 && (
         <>
           <div class="container mx-auto">
@@ -25,14 +30,14 @@ const page = () => {
                 key={booked._id}
                 className="flex mx-3 md:mx-5 mb-10 flex-col md:flex-row bg-gray-200 rounded-2xl overflow-hidden mt-10 shadow-md hover:shadow-lg transition duration-300 ease-in-out"
               >
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/5">
                   <img
                     src={`/uploads/${booked?.place?.photos[0]}`}
-                    className="object-cover h-full md:h-auto"
+                    className="object-cover aspect-square h-full md:h-auto"
                     alt=""
                   />
                 </div>
-                <div className="px-5 py-7 flex flex-col md:flex-col md:justify-between md:p-10">
+                <div className="px-5 py-7 flex flex-col  md:justify-evenly md:p-10">
                   <div className="text-2xl">{booked.place.title}</div>
                   <div className="flex gap-2 mt-4">
                     <div className="flex items-center gap-1">
@@ -82,11 +87,44 @@ const page = () => {
                     </div>
                   </div>
                   <div className="text-lg mt-4 md:mt-0">
-                    {differenceInCalendarDays(
-                      new Date(booked.checkOutDate),
-                      new Date(booked.checkInDate)
-                    )}{" "}
-                    Nights | Price : ₹{booked.price}
+                    <span className="flex gap-2 items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                        />
+                      </svg>
+                      {differenceInCalendarDays(
+                        new Date(booked.checkOutDate),
+                        new Date(booked.checkInDate)
+                      )}{" "}
+                      Nights
+                    </span>
+                    <span className="flex gap-2 items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+                        />
+                      </svg>
+                      Price : ₹{booked.price}
+                    </span>
                   </div>
                 </div>
               </div>

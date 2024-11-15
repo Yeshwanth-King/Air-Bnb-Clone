@@ -31,7 +31,6 @@ const Page = ({ params }) => {
         return;
       }
       const response = await axios.post("/api/getInfo", { id });
-      console.log(response.data.place.title);
       setTitle(response.data.place.title);
       setAddress(response.data.place.address);
       setAddPhotos(response.data.place.photos);
@@ -116,10 +115,13 @@ const Page = ({ params }) => {
       };
       try {
         let response = await axios.put("/api/add-place", data);
-        console.log(response.data);
-        Router.push("/accomodation");
+        if (!response.data.message) {
+          Router.push("/accomodation");
+        } else {
+          console.log(response.data);
+        }
       } catch (error) {
-        alert(error);
+        alert(error.message);
       }
     }
   };

@@ -35,8 +35,15 @@ export async function PUT(req, res) {
         const { name, email, _id } = await User.findById(user.id);
         data.owner = _id;
         console.log("User Found : ", name)
-        let placeDoc = await PlaceModal.findByIdAndUpdate(data.id, data)
-        return NextResponse.json({ placeDoc })
+        const placeDOC = await PlaceModal.findById(data.id);
+        if (_id === placeDOC.owner.toString()) {
+            let placeDoc = await PlaceModal.findByIdAndUpdate(data.id, data)
+            return NextResponse.json({ placeDoc })
+        }
+        else {
+            return NextResponse.json({ message: "Not the Owner" })
+        }
+
     }
     else {
         return NextResponse.error({ message: "Please Login to Add Place" })

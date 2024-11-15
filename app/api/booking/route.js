@@ -21,7 +21,6 @@ export async function GET(req, res) {
         const user = jws.verify(token.value, jwsScret, {})
         const { name, email, _id } = await User.findById(user.id);
         const bookings = await Booking.find({ user: _id }).populate("place")
-        console.log(bookings)
         return NextResponse.json({ bookings })
     }
     else {

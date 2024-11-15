@@ -54,8 +54,7 @@ const page = ({ params }) => {
     };
     console.log(data);
     const response = await axios.post("/api/booking", data);
-    console.log(response.data);
-    router.push(`/account/booking/${response.data.data._id}`);
+    router.push(`/account/booking/`);
   };
   if (showPhotos) {
     return (
