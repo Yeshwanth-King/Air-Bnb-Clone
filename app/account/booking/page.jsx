@@ -19,9 +19,11 @@ const page = () => {
       {bookings.length > 0 && (
         <>
           <div>
-            {bookings.map((place) => {
-              return <div>{place.place}</div>;
-            })}
+            {bookings.map((place) => (
+              <div>
+                {place.checkInDate} - {place.checkOutDate}
+              </div>
+            ))}
           </div>
         </>
       )}

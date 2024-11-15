@@ -366,6 +366,14 @@ export default function LoginModal() {
             >
               My Accomodation
             </li>
+            <li
+              onClick={() => {
+                Router.push("/account/booking");
+              }}
+              className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer"
+            >
+              My Bookings
+            </li>
 
             <hr />
             <li className="px-6 py-2 text-sm hover:font-medium hover:bg-gray-100 cursor-pointer">

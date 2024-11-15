@@ -35,7 +35,11 @@ const page = ({ params }) => {
   }, []);
 
   const { user } = useContext(UserContext);
-
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+    }
+  }, [user]);
   const bookingPlace = async (ev) => {
     ev.preventDefault();
     const data = {

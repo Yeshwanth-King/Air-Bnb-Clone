@@ -11,6 +11,7 @@ const page = ({ params }) => {
   return (
     <div>
       <Navbar />
+      Single Booking Page with ID is {id}
     </div>
   );
 };
