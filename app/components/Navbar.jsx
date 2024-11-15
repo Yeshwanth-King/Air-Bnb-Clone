@@ -39,7 +39,7 @@ const Navbar = () => {
         </div>
       </div>
       {path === "/" && (
-        <div className="flex items-center border-2 md:mx-[200px] shadow-md mt-5 text-xs font-semibold mx-auto rounded-full">
+        <div className="flex justify-center items-center border-2 md:mx-[200px] shadow-md mt-5 text-xs font-semibold max-sm:hidden sm:mx-auto rounded-full">
           <div className="flex w-[33%] hover:bg-gray-200 cursor-pointer transition-all duration-100 py-3 pl-7 rounded-l-full  flex-col">
             <span>Where</span>
             <span className="text-sm font-light text-gray-500">

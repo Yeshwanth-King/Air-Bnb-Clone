@@ -16,7 +16,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-5">
       <Navbar />
       <div className="flex">
         <span className="text-center text-3xl  mx-auto mt-5">
@@ -31,9 +31,9 @@ const Page = () => {
               <Link
                 href={"/places/" + place._id}
                 key={place._id}
-                className="bg-gray-200 p-3 rounded-2xl flex gap-4 mx-10"
+                className="bg-gray-200 p-3 rounded-2xl flex gap-4 mx-10 max-sm:flex-col"
               >
-                <div className="w-32 h-32 bg-gray-400 rounded-lg flex justify-center items-center overflow-hidden flex-shrink-0">
+                <div className="w-32 h-32 max-sm:w-full bg-gray-400 rounded-lg flex justify-center items-center overflow-hidden flex-shrink-0">
                   {place.photos[0] ? (
                     <img
                       src={"/uploads/" + place.photos[0]}

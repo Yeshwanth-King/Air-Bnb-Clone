@@ -45,11 +45,11 @@ const Page = () => {
           <div className="flex flex-col gap-3">
             <span className="text-4xl font-semibold">Account</span>
             <span className="text-xl flex gap-1 font-light">
-              <span className="font-semibold">{user?.name}</span> ,{" "}
-              {user?.email} ·
+              <span className="font-semibold">{user?.name}</span>{" "}
+              <span className=" max-sm:hidden">{user?.email}·</span>
               <Link
                 href={"/user/" + user?._id}
-                className="underline font-semibold"
+                className="underline font-semibold max-sm:hidden"
               >
                 Go to Profile
               </Link>

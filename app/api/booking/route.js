@@ -24,5 +24,8 @@ export async function GET(req, res) {
         console.log(bookings)
         return NextResponse.json({ bookings })
     }
+    else {
+        return NextResponse.json({ message: "No User" })
+    }
 
 }
