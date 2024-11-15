@@ -1,11 +1,13 @@
 "use client";
 import Navbar from "@/app/components/Navbar";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PiDotsNineBold } from "react-icons/pi";
 import { ImCancelCircle } from "react-icons/im";
 import { IoLocationOutline } from "react-icons/io5";
 import { differenceInCalendarDays } from "date-fns";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/app/components/UserContext";
 
 const page = ({ params }) => {
   const [place, setPlace] = useState(null);
@@ -13,12 +15,16 @@ const page = ({ params }) => {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [numberOfNights, setNumberOfNights] = useState(0);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [guests, setGuests] = useState(1);
   useEffect(() => {
     setNumberOfNights(
       differenceInCalendarDays(new Date(checkOutDate), new Date(checkInDate))
     );
   }, [checkInDate, checkOutDate]);
+
+  const router = useRouter();
 
   const id = params.id;
   useEffect(() => {
@@ -27,6 +33,26 @@ const page = ({ params }) => {
       setPlace(response.data.place);
     })();
   }, []);
+
+  const { user } = useContext(UserContext);
+
+  const bookingPlace = async (ev) => {
+    ev.preventDefault();
+    const data = {
+      place: place._id,
+      user: user._id,
+      name,
+      phone,
+      checkInDate,
+      checkOutDate,
+      guests,
+      price: numberOfNights * place.price,
+    };
+    console.log(data);
+    const response = await axios.post("/api/booking", data);
+    console.log(response.data);
+    router.push(`/account/booking/${response.data.data._id}`);
+  };
   if (showPhotos) {
     return (
       <div className=" flex flex-col p-10 bg-black relative">
@@ -179,15 +205,30 @@ const page = ({ params }) => {
                 <label className="text-sm font-medium text-gray-700">
                   Your Name:
                 </label>
-                <input type="text" required placeholder="Yeshwanth" />
+                <input
+                  value={name}
+                  onChange={(ev) => setName(ev.target.value)}
+                  type="text"
+                  required
+                  placeholder="Yeshwanth"
+                />
                 <label className="text-sm font-medium text-gray-700">
                   Phone Number:
                 </label>
-                <input type="tel" required placeholder="123" />
+                <input
+                  value={phone}
+                  onChange={(ev) => setPhone(ev.target.value)}
+                  type="tel"
+                  required
+                  placeholder="123"
+                />
               </div>
             )}
 
-            <button className="primary flex items-center justify-center">
+            <button
+              onClick={(ev) => bookingPlace(ev)}
+              className="primary flex items-center justify-center"
+            >
               {numberOfNights > 0 ? (
                 <span>₹{numberOfNights * place?.price}</span>
               ) : (
