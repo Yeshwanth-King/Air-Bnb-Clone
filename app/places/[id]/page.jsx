@@ -7,6 +7,7 @@ import { FaRegMinusSquare } from "react-icons/fa";
 import axios from "axios";
 import SpinnerLoader from "@/app/components/SpinnerLoader";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Page = ({ params }) => {
   const [title, setTitle] = useState("");
@@ -30,29 +31,40 @@ const Page = ({ params }) => {
       if (!id || id === "new") {
         return;
       }
-      const response = await axios.post("/api/getInfo", { id });
-      setTitle(response.data.place.title);
-      setAddress(response.data.place.address);
-      setAddPhotos(response.data.place.photos);
-      setDescription(response.data.place.description);
-      setPerks(response.data.place.perks);
-      setExtraInfo(response.data.place.extraInfo);
-      setCheckIn(response.data.place.checkIn);
-      setCheckOut(response.data.place.checkOut);
-      setMaxGuests(response.data.place.maxGuests);
-      setPrice(response.data.place.price);
+      try {
+        const response = await axios.post("/api/getInfo", { id });
+        setTitle(response.data.place.title);
+        setAddress(response.data.place.address);
+        setAddPhotos(response.data.place.photos);
+        setDescription(response.data.place.description);
+        setPerks(response.data.place.perks);
+        setExtraInfo(response.data.place.extraInfo);
+        setCheckIn(response.data.place.checkIn);
+        setCheckOut(response.data.place.checkOut);
+        setMaxGuests(response.data.place.maxGuests);
+        setPrice(response.data.place.price);
+      } catch (error) {
+        console.error("Error fetching place details:", error);
+      }
     })();
   }, [id]);
 
   const addPhotoToPhotos = async (ev, photoLink) => {
     setLoading(true);
     ev.preventDefault();
-    let response = await axios.post("/api/upload-by-link", { link: photoLink });
-    setAddPhotos((prev) => {
-      return [...prev, response.data.newName];
-    });
-    setPhotoLink("");
-    setLoading(false);
+    try {
+      toast.loading("Uploading photo...", { id: "photo-upload" });
+      let response = await axios.post("/api/upload-by-link", { link: photoLink });
+      setAddPhotos((prev) => {
+        return [...prev, response.data.newName];
+      });
+      setPhotoLink("");
+      toast.success("Photo uploaded successfully!", { id: "photo-upload" });
+    } catch (error) {
+      toast.error("Failed to upload photo. Please try again.", { id: "photo-upload" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const uploadFiles = async (ev) => {
@@ -64,18 +76,25 @@ const Page = ({ params }) => {
       data.append("photos", files[i]); // Ensure field name is 'photos'
     }
 
-    const response = await axios.post("/api/uploads", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    if (response.data.photos) {
-      setAddPhotos((prev) => {
-        return [...prev, ...response.data.photos];
+    try {
+      toast.loading("Uploading files...", { id: "file-upload" });
+      const response = await axios.post("/api/uploads", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+
+      if (response.data.photos) {
+        setAddPhotos((prev) => {
+          return [...prev, ...response.data.photos];
+        });
+        toast.success("Files uploaded successfully!", { id: "file-upload" });
+      }
+    } catch (error) {
+      toast.error("Failed to upload files. Please try again.", { id: "file-upload" });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleSubmit = async (ev) => {
@@ -94,11 +113,14 @@ const Page = ({ params }) => {
         price,
       };
       try {
+        toast.loading("Creating your place...", { id: "place-create" });
         let response = await axios.post("/api/add-place", data);
         console.log(response.data);
+        toast.success("Place created successfully!", { id: "place-create" });
         Router.push("/accomodation");
       } catch (error) {
         console.log(error);
+        toast.error("Failed to create place. Please try again.", { id: "place-create" });
       }
     } else {
       const data = {
@@ -112,16 +134,20 @@ const Page = ({ params }) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       };
       try {
+        toast.loading("Updating your place...", { id: "place-update" });
         let response = await axios.put("/api/add-place", data);
         if (!response.data.message) {
+          toast.success("Place updated successfully!", { id: "place-update" });
           Router.push("/accomodation");
         } else {
           console.log(response.data);
+          toast.error(response.data.message, { id: "place-update" });
         }
       } catch (error) {
-        alert(error.message);
+        toast.error(error.message || "Failed to update place. Please try again.", { id: "place-update" });
       }
     }
   };
@@ -319,7 +345,8 @@ const Page = ({ params }) => {
                 onChange={(ev) => {
                   setMaxGuests(ev.target.value);
                 }}
-                type="text"
+                type="number"
+                min="1"
                 placeholder="5"
               />
             </div>
@@ -330,8 +357,9 @@ const Page = ({ params }) => {
                 onChange={(ev) => {
                   setPrice(ev.target.value);
                 }}
-                type="text"
-                placeholder="10000₹"
+                type="number"
+                min="0"
+                placeholder="10000"
               />
             </div>
           </div>

@@ -5,13 +5,20 @@ import Link from "next/link";
 import { GoPlus } from "react-icons/go";
 import axios from "axios";
 import PlacesCard from "../components/PlacesCard";
+import { toast } from "sonner";
 
 const Page = () => {
   const [places, setPlaces] = useState([]);
   useEffect(() => {
     (async () => {
-      let response = await axios.get("/api/get-place");
-      setPlaces(response.data.places);
+      try {
+        let response = await axios.get("/api/get-place");
+        setPlaces(response.data.places);
+      } catch (error) {
+        console.error("Error fetching places:", error);
+        toast.error("Failed to load accommodations. Please try again.");
+        setPlaces([]);
+      }
     })();
   }, []);
 

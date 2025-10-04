@@ -3,13 +3,20 @@ import Navbar from "@/app/components/Navbar";
 import axios from "axios";
 import { differenceInCalendarDays } from "date-fns";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-const page = () => {
+const Page = () => {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
     (async () => {
-      const response = await axios.get("/api/booking");
-      setBookings(response.data.bookings);
+      try {
+        const response = await axios.get("/api/booking");
+        setBookings(response.data.bookings);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        toast.error("Failed to load bookings. Please try again.");
+        setBookings([]);
+      }
     })();
   }, []);
   return (
@@ -24,7 +31,7 @@ const page = () => {
       )}
       {bookings?.length > 0 && (
         <>
-          <div class="container mx-auto">
+          <div className="container mx-auto">
             {bookings.map((booked) => (
               <div
                 key={booked._id}
@@ -94,7 +101,7 @@ const page = () => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="size-6"
+                        className="size-6"
                       >
                         <path
                           stroke-linecap="round"
@@ -115,7 +122,7 @@ const page = () => {
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="size-6"
+                        className="size-6"
                       >
                         <path
                           stroke-linecap="round"
@@ -136,4 +143,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

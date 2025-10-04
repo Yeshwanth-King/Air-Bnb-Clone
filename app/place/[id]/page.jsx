@@ -8,8 +8,9 @@ import { IoLocationOutline } from "react-icons/io5";
 import { differenceInCalendarDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/app/components/UserContext";
+import { toast } from "sonner";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [place, setPlace] = useState(null);
   const [showPhotos, setShowPhotos] = useState(false);
   const [checkInDate, setCheckInDate] = useState("");
@@ -29,10 +30,14 @@ const page = ({ params }) => {
   const id = params.id;
   useEffect(() => {
     (async () => {
-      const response = await axios.post("/api/getInfo", { id });
-      setPlace(response.data.place);
+      try {
+        const response = await axios.post("/api/getInfo", { id });
+        setPlace(response.data.place);
+      } catch (error) {
+        console.error("Error fetching place:", error);
+      }
     })();
-  }, []);
+  }, [id]);
 
   const { user } = useContext(UserContext);
   useEffect(() => {
@@ -42,6 +47,14 @@ const page = ({ params }) => {
   }, [user]);
   const bookingPlace = async (ev) => {
     ev.preventDefault();
+    if (!user) {
+      toast.error("Please login to book a place");
+      return;
+    }
+    if (!place) {
+      toast.error("Place information not available");
+      return;
+    }
     const data = {
       place: place._id,
       user: user._id,
@@ -53,8 +66,15 @@ const page = ({ params }) => {
       price: numberOfNights * place.price,
     };
     console.log(data);
-    const response = await axios.post("/api/booking", data);
-    router.push(`/account/booking/`);
+    try {
+      toast.loading("Booking your place...", { id: "booking" });
+      const response = await axios.post("/api/booking", data);
+      toast.success("Place booked successfully!", { id: "booking" });
+      router.push(`/account/booking/`);
+    } catch (error) {
+      console.error("Error booking place:", error);
+      toast.error("Failed to book place. Please try again.", { id: "booking" });
+    }
   };
   if (showPhotos) {
     return (
@@ -69,9 +89,9 @@ const page = ({ params }) => {
         </button>
         <div className="flex flex-col gap-3 justify-center items-center min-w-full mx-auto p-8">
           {place?.photos.length > 0 &&
-            place?.photos.map((photo) => {
+            place?.photos.map((photo, index) => {
               return (
-                <div className="min-w-full mx-auto">
+                <div key={index} className="min-w-full mx-auto">
                   <img
                     className="object-cover aspect-square"
                     src={"/uploads/" + photo}
@@ -249,4 +269,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

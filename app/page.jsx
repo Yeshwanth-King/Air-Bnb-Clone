@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
@@ -10,12 +11,18 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      let response = await axios.get("/api/getAllPalces");
-      setPlaces([
-        ...response.data.place,
-        // ...response.data.place,
-        // ...response.data.place,
-      ]);
+      try {
+        let response = await axios.get("/api/getAllPalces");
+        setPlaces([
+          ...response.data.place,
+          // ...response.data.place,
+          // ...response.data.place,
+        ]);
+      } catch (error) {
+        console.error("Error fetching places:", error);
+        toast.error("Failed to load places. Please refresh the page.");
+        setPlaces([]);
+      }
     })();
   }, []);
 

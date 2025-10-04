@@ -1,7 +1,7 @@
-import { Nunito, Poppins } from "next/font/google"
 import localFont from "next/font/local";
 import "./globals.css";
 import { UserContextProvider } from "./components/UserContext";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,11 +12,6 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
-});
-
-const fonts = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"]
 });
 
 export const metadata = {
@@ -30,12 +25,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <UserContextProvider>
           {children}
+          <Toaster position="top-right" richColors />
         </UserContextProvider>
       </body>
     </html>

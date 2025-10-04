@@ -14,10 +14,12 @@ export function UserContextProvider({ children }) {
           const response = await axios.get("/api/profile");
           setUser(response.data.user);
           setReady(true);
-        } catch (error) {}
+        } catch (error) {
+          setReady(true);
+        }
       }
     })();
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser, ready }}>
